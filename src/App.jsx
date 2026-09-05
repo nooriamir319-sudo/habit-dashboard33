@@ -1073,34 +1073,33 @@ function isEventPast(ev) {
 }
 
 /* ============================================================================
-   STORAGE (window.storage — persists across sessions, NOT localStorage)
+   STORAGE (localStorage — persists across sessions in the visitor's browser)
 ============================================================================ */
 
 async function storageSelfTest() {
-  if (typeof window === "undefined" || !window.storage) return { ok: false, detail: "window.storage ist hier nicht verfügbar." };
+  if (typeof window === "undefined" || !window.localStorage) return { ok: false, detail: "localStorage ist in diesem Browser nicht verfügbar." };
   try {
     const marker = "diag_" + Date.now();
-    const setRes = await window.storage.set("__diag_dash__", marker, false);
-    if (!setRes) return { ok: false, detail: "Schreiben wurde abgelehnt." };
-    const getRes = await window.storage.get("__diag_dash__", false);
-    if (!getRes || getRes.value !== marker) return { ok: false, detail: "Rücklesen fehlgeschlagen." };
+    localStorage.setItem("__diag_dash__", marker);
+    const readBack = localStorage.getItem("__diag_dash__");
+    if (readBack !== marker) return { ok: false, detail: "Rücklesen fehlgeschlagen." };
+    localStorage.removeItem("__diag_dash__");
     return { ok: true, detail: "OK" };
   } catch (e) { return { ok: false, detail: e && e.message ? e.message : String(e) }; }
 }
 
 async function loadKey(key, fallback) {
   try {
-    const r = await window.storage.get(key, false);
-    if (r && r.value) return JSON.parse(r.value);
+    const raw = localStorage.getItem(key);
+    if (raw) return JSON.parse(raw);
   } catch (e) {}
   return fallback;
 }
 
 async function save(key, value) {
   try {
-    if (!window.storage) return false;
-    const res = await window.storage.set(key, JSON.stringify(value), false);
-    return !!res;
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
   } catch (e) { console.error("Speichern fehlgeschlagen:", key, e); return false; }
 }
 
@@ -2685,7 +2684,7 @@ export default function App() {
     if (!ok) flash("Name nicht dauerhaft gespeichert", true);
   }
   async function handleLogout() {
-    try { await window.storage.delete("dashboardUser", false); } catch (e) {}
+    try { localStorage.removeItem("dashboardUser"); } catch (e) {}
     setUser(null);
   }
 
