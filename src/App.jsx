@@ -7,7 +7,7 @@ import {
   Check, Plus, X, Loader2, PenLine, BarChart3, Activity, Settings, Sparkles,
   RotateCcw, LogOut, Droplet, Scale, NotebookPen, Award, Quote, Save, Clock,
   CalendarDays, Pencil, Trash2, CheckCircle2, Globe, Bell, ChevronRight, Info,
-  Dices, Circle,
+  Dices, Circle, Target, ListChecks, Trophy, Dumbbell,
 } from "lucide-react";
 
 /* ============================================================================
@@ -52,6 +52,8 @@ const TR = {
     navActivity: "Aktivitäten",
     navEvents: "Termine",
     navChallenges: "Challenges",
+    navRoutines: "Routinen",
+    navGoals: "Ziele",
     dashboardOf: (name) => `Dashboard von ${name}`,
     logout: "Abmelden",
     settings: "Einstellungen",
@@ -153,6 +155,7 @@ const TR = {
     noUpcomingEvents: "Keine anstehenden Termine.",
     // manifesto / about
     aboutInfoButton: "!",
+    aboutTooltip: "Über dieses Projekt",
     aboutPopupTitle: "Danke, dass du hier bist",
     aboutPopupText: "Diese Website wird nie etwas kosten. Sie ist für jeden gedacht, der ein Stück mehr Struktur, Reflexion und Fortschritt in seinen Alltag bringen möchte – unabhängig davon, was er sich leisten kann. Wenn dir das Dashboard hilft, ist das schon genug.",
     closeButton: "Schließen",
@@ -167,6 +170,51 @@ const TR = {
     noChallengesYet: "Noch keine Challenges gewürfelt.",
     rolledLabel: "Gewürfelt",
     challengeHistoryTitle: "Verlauf",
+    // routines
+    routinesTitle: "Routinen",
+    routinesSub: "Deine wiederkehrenden Trainingspläne",
+    newRoutine: "Neue Routine",
+    routineName: "Name",
+    routineNamePlaceholder: "z. B. Push-Tag",
+    routineDescription: "Beschreibung",
+    routineDescriptionPlaceholder: "z. B. Alle Push-Übungen",
+    routineDuration: "Dauer (Minuten)",
+    routineGoal: "Ziel",
+    routineGoalPlaceholder: "z. B. 3 Sätze pro Übung",
+    routineCategory: "Kategorie",
+    catStrength: "Kraft",
+    catEndurance: "Ausdauer",
+    catMobility: "Mobilität",
+    saveRoutine: "Routine speichern",
+    noRoutines: "Noch keine Routinen angelegt.",
+    markRoutineDone: "Erledigt",
+    markRoutineSkipped: "Übersprungen",
+    routineDoneFeedback: ["Stark! Weiter so. 🔥", "Genau so bleibt man dran. 💪", "Ein Punkt mehr für dich. ⚡", "Sauber durchgezogen. 🚀"],
+    routineSkippedFeedback: ["Kein Drama – morgen wieder angreifen.", "Kurze Pause, keine Ausrede.", "Notiert. Nächstes Mal zählt's wieder.", "Nicht ideal, aber kein Weltuntergang."],
+    routineStreak: "Serie",
+    todayStatus: "Heute",
+    fillRoutineName: "Bitte gib einen Namen ein.",
+    minutesShort: "Min",
+    // goals
+    goalsTitle: "Ziele",
+    goalsSub: "Deine langfristigen Vorhaben",
+    newGoal: "Neues Ziel",
+    goalName: "Name",
+    goalNamePlaceholder: "z. B. 10 kg abnehmen",
+    goalDate: "Zieldatum",
+    goalPeriod: "Zeitraum",
+    goalPeriodPlaceholder: "z. B. 3 Monate",
+    goalCategory: "Kategorie",
+    catHealth: "Gesundheit",
+    catFitness: "Fitness",
+    catCareer: "Beruf",
+    catLearning: "Lernen",
+    saveGoal: "Ziel speichern",
+    noGoals: "Noch keine Ziele eingetragen.",
+    progress: "Fortschritt",
+    goalAchieved: "Erreicht!",
+    fillGoalName: "Bitte Name und Datum angeben.",
+    deleteGoal: "Löschen",
   },
   en: {
     monthNames: ["January","February","March","April","May","June","July","August","September","October","November","December"],
@@ -179,6 +227,8 @@ const TR = {
     navActivity: "Activity",
     navEvents: "Events",
     navChallenges: "Challenges",
+    navRoutines: "Routines",
+    navGoals: "Goals",
     dashboardOf: (name) => `${name}'s Dashboard`,
     logout: "Log out",
     settings: "Settings",
@@ -280,6 +330,7 @@ const TR = {
     noUpcomingEvents: "No upcoming events.",
     // manifesto / about
     aboutInfoButton: "!",
+    aboutTooltip: "About this project",
     aboutPopupTitle: "Thank you for being here",
     aboutPopupText: "This website will never cost anything. It's meant for anyone who wants a bit more structure, reflection, and progress in their everyday life — no matter what they can afford. If this dashboard helps you, that's already enough.",
     closeButton: "Close",
@@ -294,6 +345,51 @@ const TR = {
     noChallengesYet: "No challenges rolled yet.",
     rolledLabel: "Rolled",
     challengeHistoryTitle: "History",
+    // routines
+    routinesTitle: "Routines",
+    routinesSub: "Your recurring training plans",
+    newRoutine: "New Routine",
+    routineName: "Name",
+    routineNamePlaceholder: "e.g. Push Day",
+    routineDescription: "Description",
+    routineDescriptionPlaceholder: "e.g. All push exercises",
+    routineDuration: "Duration (minutes)",
+    routineGoal: "Goal",
+    routineGoalPlaceholder: "e.g. 3 sets per exercise",
+    routineCategory: "Category",
+    catStrength: "Strength",
+    catEndurance: "Endurance",
+    catMobility: "Mobility",
+    saveRoutine: "Save routine",
+    noRoutines: "No routines created yet.",
+    markRoutineDone: "Done",
+    markRoutineSkipped: "Skipped",
+    routineDoneFeedback: ["Strong work. Keep it up. 🔥", "That's how you stay consistent. 💪", "One more point for you. ⚡", "Cleanly executed. 🚀"],
+    routineSkippedFeedback: ["No drama — get back at it tomorrow.", "Short break, no excuses.", "Noted. It counts again next time.", "Not ideal, but not the end of the world."],
+    routineStreak: "Streak",
+    todayStatus: "Today",
+    fillRoutineName: "Please enter a name.",
+    minutesShort: "min",
+    // goals
+    goalsTitle: "Goals",
+    goalsSub: "Your long-term plans",
+    newGoal: "New Goal",
+    goalName: "Name",
+    goalNamePlaceholder: "e.g. lose 10 kg",
+    goalDate: "Target date",
+    goalPeriod: "Period",
+    goalPeriodPlaceholder: "e.g. 3 months",
+    goalCategory: "Category",
+    catHealth: "Health",
+    catFitness: "Fitness",
+    catCareer: "Career",
+    catLearning: "Learning",
+    saveGoal: "Save goal",
+    noGoals: "No goals added yet.",
+    progress: "Progress",
+    goalAchieved: "Achieved!",
+    fillGoalName: "Please provide a name and date.",
+    deleteGoal: "Delete",
   },
 };
 
@@ -853,13 +949,6 @@ const CHALLENGE_EXERCISES = {
   ],
 };
 
-const CHALLENGE_BADGE_DEFS = [
-  { id: "first", de: { label: "Erster Wurf", desc: "Erste Challenge gewürfelt" }, en: { label: "First Roll", desc: "First challenge rolled" }, icon: "🎲", check: (s) => s.totalRolls >= 1 },
-  { id: "day3", de: { label: "3 an einem Tag", desc: "3 Challenges an einem Tag erledigt" }, en: { label: "3 in One Day", desc: "3 challenges completed in one day" }, icon: "🔥", check: (s) => s.maxDoneInOneDay >= 3 },
-  { id: "ten", de: { label: "10 erledigt", desc: "Insgesamt 10 Challenges erledigt" }, en: { label: "10 Done", desc: "10 challenges completed in total" }, icon: "💪", check: (s) => s.totalDone >= 10 },
-  { id: "allLevels", de: { label: "Alle Level", desc: "Jede Schwierigkeit mindestens einmal erledigt" }, en: { label: "All Levels", desc: "Completed every difficulty at least once" }, icon: "🏆", check: (s) => s.difficultiesDone.size >= 3 },
-];
-
 function randomChallengeExercise(lang) {
   const list = CHALLENGE_EXERCISES[lang] || CHALLENGE_EXERCISES.de;
   return list[Math.floor(Math.random() * list.length)];
@@ -882,6 +971,31 @@ function makeChallengeEntry(difficulty, lang) {
 function challengeDayKey(iso) {
   return iso ? iso.slice(0, 10) : null;
 }
+
+/* ============================================================================
+   CHALLENGE BADGES — expanded set (18), all computed from challengeHistory
+============================================================================ */
+
+const CHALLENGE_BADGE_DEFS = [
+  { id: "first", de: { label: "Erste Challenge", desc: "1. Challenge erledigt" }, en: { label: "First Challenge", desc: "1st challenge completed" }, icon: "🎲", check: (s) => s.totalDone >= 1 },
+  { id: "star5", de: { label: "Challenge-Star", desc: "5 Challenges erledigt" }, en: { label: "Challenge Star", desc: "5 challenges completed" }, icon: "⭐", check: (s) => s.totalDone >= 5 },
+  { id: "pro20", de: { label: "Challenge-Pro", desc: "20 Challenges erledigt" }, en: { label: "Challenge Pro", desc: "20 challenges completed" }, icon: "🏅", check: (s) => s.totalDone >= 20 },
+  { id: "iron50", de: { label: "Eisern", desc: "50 Challenges erledigt" }, en: { label: "Iron Will", desc: "50 challenges completed" }, icon: "🛡️", check: (s) => s.totalDone >= 50 },
+  { id: "legend100", de: { label: "Legende", desc: "100 Challenges erledigt" }, en: { label: "Legend", desc: "100 challenges completed" }, icon: "👑", check: (s) => s.totalDone >= 100 },
+  { id: "hardcore10", de: { label: "Hardcore", desc: "10 Hard-Challenges erledigt" }, en: { label: "Hardcore", desc: "10 hard challenges completed" }, icon: "💀", check: (s) => s.hardDone >= 10 },
+  { id: "hardcore25", de: { label: "Eiskalt", desc: "25 Hard-Challenges erledigt" }, en: { label: "Ice Cold", desc: "25 hard challenges completed" }, icon: "🧊", check: (s) => s.hardDone >= 25 },
+  { id: "weeklyHero", de: { label: "Wöchentlicher Held", desc: "An 7 Tagen in Folge eine Challenge erledigt" }, en: { label: "Weekly Hero", desc: "Completed a challenge 7 days in a row" }, icon: "🗓️", check: (s) => s.doneDaysLast7 >= 7 },
+  { id: "monthlyChampion", de: { label: "Monatlicher Champion", desc: "An jedem Tag des Monats bisher eine Challenge erledigt" }, en: { label: "Monthly Champion", desc: "Completed a challenge every day this month so far" }, icon: "🏆", check: (s) => s.doneDaysThisMonth >= s.daysElapsedThisMonth && s.daysElapsedThisMonth >= 5 },
+  { id: "allesfresser", de: { label: "Allesfresser", desc: "Jede Übungsart mindestens einmal erledigt" }, en: { label: "All-Rounder", desc: "Completed every exercise type at least once" }, icon: "🍽️", check: (s) => s.exercisesDone.size >= 5 },
+  { id: "pullupKing", de: { label: "Klimmzug-König", desc: "Klimmzüge in allen Schwierigkeiten erledigt" }, en: { label: "Pull-Up King", desc: "Completed pull-ups at every difficulty" }, icon: "🤴", check: (s) => (s.exerciseDiffs.pullups ? s.exerciseDiffs.pullups.size : 0) >= 3 },
+  { id: "plankMaster", de: { label: "Plank-Master", desc: "Plank in allen Schwierigkeiten erledigt" }, en: { label: "Plank Master", desc: "Completed plank at every difficulty" }, icon: "🧘", check: (s) => (s.exerciseDiffs.plank ? s.exerciseDiffs.plank.size : 0) >= 3 },
+  { id: "wallsitMaster", de: { label: "Wandsitz-Meister", desc: "Wandsitzen in allen Schwierigkeiten erledigt" }, en: { label: "Wall Sit Master", desc: "Completed wall sit at every difficulty" }, icon: "🪑", check: (s) => (s.exerciseDiffs.wallsit ? s.exerciseDiffs.wallsit.size : 0) >= 3 },
+  { id: "enduranceBeast", de: { label: "Ausdauer-Tier", desc: "Joggen in allen Schwierigkeiten erledigt" }, en: { label: "Endurance Beast", desc: "Completed running at every difficulty" }, icon: "🐆", check: (s) => (s.exerciseDiffs.jogging ? s.exerciseDiffs.jogging.size : 0) >= 3 },
+  { id: "pushupPower", de: { label: "Liegestütz-Power", desc: "Liegestütze in allen Schwierigkeiten erledigt" }, en: { label: "Push-Up Power", desc: "Completed push-ups at every difficulty" }, icon: "💥", check: (s) => (s.exerciseDiffs.pushups ? s.exerciseDiffs.pushups.size : 0) >= 3 },
+  { id: "versatile", de: { label: "Vielseitig", desc: "Jede Übungsart mindestens einmal auf Hard erledigt" }, en: { label: "Versatile", desc: "Completed every exercise on Hard at least once" }, icon: "🌟", check: (s) => s.hardExercises.size >= 5 },
+  { id: "entschlossen", de: { label: "Entschlossen", desc: "10 Challenges an einem Tag erledigt" }, en: { label: "Determined", desc: "10 challenges completed in one day" }, icon: "🔥", check: (s) => s.maxDoneInOneDay >= 10 },
+  { id: "unzerstoerbar", de: { label: "Unzerstörbar", desc: "20 Challenges an einem Tag erledigt" }, en: { label: "Unstoppable", desc: "20 challenges completed in one day" }, icon: "⚡", check: (s) => s.maxDoneInOneDay >= 20 },
+];
 
 /* ============================================================================
    HELPERS
@@ -959,32 +1073,34 @@ function isEventPast(ev) {
 }
 
 /* ============================================================================
-   STORAGE (localStorage — echtes Browser-API, funktioniert auf Vercel/GitHub Pages)
+   STORAGE (window.storage — persists across sessions, NOT localStorage)
 ============================================================================ */
 
 async function storageSelfTest() {
-  if (typeof window === "undefined" || !window.localStorage) return { ok: false, detail: "localStorage ist hier nicht verfügbar." };
+  if (typeof window === "undefined" || !window.storage) return { ok: false, detail: "window.storage ist hier nicht verfügbar." };
   try {
     const marker = "diag_" + Date.now();
-    window.localStorage.setItem("__diag_dash__", marker);
-    const value = window.localStorage.getItem("__diag_dash__");
-    if (value !== marker) return { ok: false, detail: "Rücklesen fehlgeschlagen." };
+    const setRes = await window.storage.set("__diag_dash__", marker, false);
+    if (!setRes) return { ok: false, detail: "Schreiben wurde abgelehnt." };
+    const getRes = await window.storage.get("__diag_dash__", false);
+    if (!getRes || getRes.value !== marker) return { ok: false, detail: "Rücklesen fehlgeschlagen." };
     return { ok: true, detail: "OK" };
   } catch (e) { return { ok: false, detail: e && e.message ? e.message : String(e) }; }
 }
 
 async function loadKey(key, fallback) {
   try {
-    const raw = window.localStorage.getItem(key);
-    if (raw) return JSON.parse(raw);
+    const r = await window.storage.get(key, false);
+    if (r && r.value) return JSON.parse(r.value);
   } catch (e) {}
   return fallback;
 }
 
 async function save(key, value) {
   try {
-    window.localStorage.setItem(key, JSON.stringify(value));
-    return true;
+    if (!window.storage) return false;
+    const res = await window.storage.set(key, JSON.stringify(value), false);
+    return !!res;
   } catch (e) { console.error("Speichern fehlgeschlagen:", key, e); return false; }
 }
 
@@ -1037,6 +1153,7 @@ function GlobalStyles({ theme }) {
       @keyframes overlayIn { from { opacity: 0; } to { opacity: 1; } }
       @keyframes diceSpin { 0% { transform: rotate(0deg) scale(1); } 50% { transform: rotate(200deg) scale(1.15); } 100% { transform: rotate(360deg) scale(1); } }
       @keyframes resultPop { 0% { opacity: 0; transform: scale(0.55); } 65% { opacity: 1; transform: scale(1.1); } 100% { transform: scale(1); } }
+      @keyframes feedbackPop { 0% { opacity: 0; transform: translateY(-6px) scale(0.9); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
 
       .tab-content { animation: fadeScaleIn 0.4s ${SMOOTH} both; }
 
@@ -1078,7 +1195,7 @@ function GlobalStyles({ theme }) {
         position: relative;
       }
       .icon-btn:hover { transform: rotate(50deg) scale(1.14) translateY(-2px); border-color: ${hexAlpha(theme.accent, "90")}; box-shadow: 0 6px 18px ${hexAlpha(theme.accent, "40")}; }
-      .icon-btn.bell-btn:hover { transform: scale(1.14) translateY(-2px) rotate(0deg); }
+      .icon-btn.bell-btn:hover, .icon-btn.info-btn:hover { transform: scale(1.14) translateY(-2px) rotate(0deg); }
 
       .badge-dot {
         position: absolute; top: -4px; right: -4px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 999px;
@@ -1197,16 +1314,22 @@ function GlobalStyles({ theme }) {
       .modal-box {
         animation: modalIn 0.3s ${ELASTIC} both;
       }
+      .modal-close-btn {
+        width: 32px; height: 32px; border-radius: 50%; border: 1px solid ${C.glassBorder}; background: rgba(255,255,255,0.06);
+        color: ${C.text}; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+        transition: transform 0.25s ${ELASTIC}, background 0.3s ease, border-color 0.3s ease;
+      }
+      .modal-close-btn:hover { transform: rotate(90deg) scale(1.1); background: ${hexAlpha(C.red, "22")}; border-color: ${hexAlpha(C.red, "80")}; }
 
-      .about-info-btn {
-        width: 40px; height: 40px; border-radius: 50%; border: 1px solid ${hexAlpha(theme.accent, "70")};
+      .about-info-btn, .info-btn-fixed {
+        width: 38px; height: 38px; border-radius: 50%; border: 1px solid ${hexAlpha(theme.accent, "70")};
         background: linear-gradient(135deg, ${hexAlpha(theme.primary, "cc")}, ${hexAlpha(theme.accent, "cc")});
-        color: #fff; font-weight: 800; font-size: 17px; cursor: pointer; display: flex; align-items: center; justify-content: center;
-        box-shadow: 0 0 0 4px ${hexAlpha(theme.primary, "14")}, 0 6px 20px ${hexAlpha(theme.primary, "50")};
+        color: #fff; font-weight: 800; font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+        box-shadow: 0 0 0 3px ${hexAlpha(theme.primary, "14")}, 0 6px 20px ${hexAlpha(theme.primary, "50")};
         transition: transform 0.25s ${ELASTIC}, box-shadow 0.3s ease;
         flex-shrink: 0;
       }
-      .about-info-btn:hover { transform: scale(1.12) rotate(-6deg); box-shadow: 0 0 0 6px ${hexAlpha(theme.primary, "22")}, 0 10px 26px ${hexAlpha(theme.primary, "70")}; }
+      .about-info-btn:hover, .info-btn-fixed:hover { transform: scale(1.12) rotate(-6deg); box-shadow: 0 0 0 6px ${hexAlpha(theme.primary, "22")}, 0 10px 26px ${hexAlpha(theme.primary, "70")}; }
 
       .dice-roll-btn {
         width: 88px; height: 88px; border-radius: 26px; border: none; cursor: pointer;
@@ -1227,6 +1350,38 @@ function GlobalStyles({ theme }) {
       }
       .diff-btn:hover { transform: translateY(-2px); }
       .diff-btn.active { color: #0a0118; }
+
+      /* ---- routines ---- */
+      .routine-card {
+        border-radius: 18px; border: 1px solid ${C.glassBorder}; padding: 14px; position: relative; overflow: hidden;
+        background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+        transition: transform 0.25s ${ELASTIC}, border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      .routine-card:hover { transform: translateY(-4px); border-color: ${hexAlpha(theme.accent, "80")}; box-shadow: 0 14px 34px ${hexAlpha(theme.primary, "30")}; }
+      .routine-cat-pill {
+        font-size: 9.5px; font-weight: 800; letter-spacing: 0.3px; padding: 3px 9px; border-radius: 999px; display: inline-flex;
+      }
+      .routine-action-btn {
+        flex: 1; padding: 8px 0; border-radius: 11px; font-size: 11.5px; font-weight: 700; cursor: pointer; border: 1px solid transparent;
+        transition: transform 0.2s ${ELASTIC}, filter 0.2s ease, box-shadow 0.2s ease;
+      }
+      .routine-action-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+      .routine-feedback { font-size: 11px; font-weight: 700; animation: feedbackPop 0.3s ${ELASTIC} both; }
+
+      /* ---- goals ---- */
+      .goal-card {
+        border-radius: 18px; border: 1px solid ${C.glassBorder}; padding: 14px; position: relative; overflow: hidden;
+        background: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
+        transition: transform 0.25s ${ELASTIC}, border-color 0.3s ease, box-shadow 0.3s ease;
+      }
+      .goal-card:hover { transform: translateY(-4px); border-color: ${hexAlpha(theme.primary, "80")}; box-shadow: 0 14px 34px ${hexAlpha(theme.accent, "26")}; }
+      .goal-progress-track { height: 10px; border-radius: 999px; background: rgba(255,255,255,0.08); overflow: hidden; position: relative; }
+      .goal-progress-fill { height: 100%; border-radius: 999px; transition: width 0.8s ${SMOOTH}; }
+      .goal-slider { width: 100%; accent-color: ${theme.accent}; cursor: pointer; }
+      .goal-achieved-badge {
+        display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 800; color: #0a0118;
+        background: linear-gradient(135deg, ${C.amber}, ${theme.accent}); padding: 3px 9px; border-radius: 999px;
+      }
     `}</style>
   );
 }
@@ -1547,7 +1702,7 @@ function NotificationsPanel({ theme, events, onToggleDone, onClose, t }) {
 }
 
 /* ============================================================================
-   ABOUT / MANIFESTO SECTION
+   ABOUT / MANIFESTO — text lives only inside the modal, never as a page block
 ============================================================================ */
 
 const MANIFESTO = {
@@ -1583,45 +1738,30 @@ That is why I have decided: This website will remain free forever. It is for eve
 My website is not a product. It is an invitation to anyone who dares to take the first step without having to be afraid that the second step will cost something.`,
 };
 
-function AboutSection({ theme, t, lang, onOpenInfo }) {
+function AboutModal({ theme, t, lang, onClose }) {
   const paragraphs = (MANIFESTO[lang] || MANIFESTO.de).split("\n\n");
   return (
-    <GlassCard from="bottom" delay={0} style={{ maxWidth: 760, margin: "24px auto 0" }}>
-      <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        {paragraphs.map((p, i) => (
-          <p key={i} style={{ fontSize: 12.5, lineHeight: 1.7, color: C.muted, margin: 0 }}>{p}</p>
-        ))}
-      </div>
-      <div style={{ display: "flex", justifyContent: "center", marginTop: 18 }}>
-        <button onClick={onOpenInfo} className="about-info-btn" title={t("aboutPopupTitle")}>
-          {t("aboutInfoButton")}
-        </button>
-      </div>
-    </GlassCard>
-  );
-}
-
-function AboutModal({ theme, t, onClose }) {
-  return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box glass-card" style={{ padding: 26, width: 420, maxWidth: "100%" }} onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
-          <div style={{
-            width: 38, height: 38, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-            background: `linear-gradient(135deg, ${theme.primary}, ${theme.accent})`, boxShadow: `0 0 18px ${hexAlpha(theme.primary, "60")}`,
-          }}>
-            <Info size={18} color="#fff" />
+      <div className="modal-box glass-card" style={{ padding: 26, width: 480, maxWidth: "100%", maxHeight: "82vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 14 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{
+              width: 38, height: 38, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
+              background: `linear-gradient(135deg, ${theme.primary}, ${theme.accent})`, boxShadow: `0 0 18px ${hexAlpha(theme.primary, "60")}`,
+            }}>
+              <Info size={18} color="#fff" />
+            </div>
+            <h2 className="display" style={{ fontSize: 17, fontWeight: 700, margin: 0, color: C.text }}>{t("aboutPopupTitle")}</h2>
           </div>
-          <h2 className="display" style={{ fontSize: 17, fontWeight: 700, margin: 0, color: C.text }}>{t("aboutPopupTitle")}</h2>
+          <button onClick={onClose} className="modal-close-btn" title={t("closeButton")}>
+            <X size={16} />
+          </button>
         </div>
-        <p style={{ fontSize: 13, lineHeight: 1.65, color: C.muted, margin: "0 0 20px" }}>{t("aboutPopupText")}</p>
-        <button onClick={onClose} className="lift-btn" style={{
-          width: "100%", padding: "10px 0", borderRadius: 12, border: "none", cursor: "pointer",
-          fontSize: 13, fontWeight: 700, color: "#fff", background: `linear-gradient(135deg, ${theme.primary}, ${theme.accent})`,
-          boxShadow: `0 6px 20px ${hexAlpha(theme.primary, "50")}`,
-        }}>
-          {t("closeButton")}
-        </button>
+        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+          {paragraphs.map((p, i) => (
+            <p key={i} style={{ fontSize: 12.5, lineHeight: 1.7, color: C.muted, margin: 0 }}>{p}</p>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -2113,6 +2253,276 @@ function formatChallengeDateTime(iso, lang) {
 }
 
 /* ============================================================================
+   ROUTINES TAB — recurring training plans with a futuristic card layout
+============================================================================ */
+
+const ROUTINE_CATEGORY_COLORS = { strength: C.red, endurance: C.amber, mobility: C.green };
+
+function emptyRoutineForm() {
+  return { id: null, name: "", description: "", duration: "", goalText: "", category: "strength" };
+}
+
+function RoutineCard({ theme, routine, t, lang, onLog, onDelete }) {
+  const today = todayStr();
+  const todayStatus = routine.log && routine.log[today];
+  const catColor = ROUTINE_CATEGORY_COLORS[routine.category] || theme.primary;
+  const catLabel = t(`cat${routine.category === "strength" ? "Strength" : routine.category === "endurance" ? "Endurance" : "Mobility"}`);
+
+  const doneDates = Object.keys(routine.log || {}).filter((k) => routine.log[k] === "done").sort();
+  let streak = 0;
+  const cursor = new Date();
+  while (true) {
+    const ds = ymdFromDate(cursor);
+    if (routine.log && routine.log[ds] === "done") { streak++; cursor.setDate(cursor.getDate() - 1); } else break;
+  }
+
+  return (
+    <div className="routine-card">
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 8 }}>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontSize: 14.5, fontWeight: 700, color: C.text, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{routine.name}</div>
+          <span className="routine-cat-pill" style={{ color: catColor, border: `1px solid ${hexAlpha(catColor, "70")}`, background: hexAlpha(catColor, "16"), marginTop: 6 }}>{catLabel}</span>
+        </div>
+        <button onClick={() => onDelete(routine.id)} className="lift-btn" style={{ background: "none", border: "none", color: C.muted, cursor: "pointer", opacity: 0.6, flexShrink: 0 }}>
+          <Trash2 size={13} />
+        </button>
+      </div>
+      {routine.description && <div style={{ fontSize: 12, color: C.muted, marginBottom: 8, lineHeight: 1.5 }}>{routine.description}</div>}
+      <div style={{ display: "flex", gap: 14, marginBottom: 10, flexWrap: "wrap" }}>
+        {routine.duration && (
+          <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: C.muted }}>
+            <Clock size={12} color={theme.accent} /> {routine.duration} {t("minutesShort")}
+          </div>
+        )}
+        {routine.goalText && (
+          <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, color: C.muted }}>
+            <Target size={12} color={theme.accent} /> {routine.goalText}
+          </div>
+        )}
+        {streak > 0 && (
+          <div style={{ display: "flex", alignItems: "center", gap: 5, fontSize: 11, fontWeight: 700, color: C.amber }}>
+            🔥 {streak} {t("routineStreak")}
+          </div>
+        )}
+      </div>
+      <div style={{ display: "flex", gap: 8 }}>
+        <button
+          onClick={() => onLog(routine.id, "done")}
+          className="routine-action-btn"
+          style={{
+            background: todayStatus === "done" ? `linear-gradient(135deg, ${C.green}, ${theme.accent})` : hexAlpha(C.green, "16"),
+            color: todayStatus === "done" ? "#0a0118" : C.green,
+            borderColor: hexAlpha(C.green, "60"),
+          }}
+        >
+          ✅ {t("markRoutineDone")}
+        </button>
+        <button
+          onClick={() => onLog(routine.id, "skipped")}
+          className="routine-action-btn"
+          style={{
+            background: todayStatus === "skipped" ? hexAlpha(C.red, "40") : hexAlpha(C.red, "12"),
+            color: C.red,
+            borderColor: hexAlpha(C.red, "50"),
+          }}
+        >
+          ⏭️ {t("markRoutineSkipped")}
+        </button>
+      </div>
+      {todayStatus && (
+        <div className="routine-feedback" style={{ marginTop: 8, color: todayStatus === "done" ? C.green : C.muted }}>
+          {routine.feedback}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function RoutinesCard({ theme, routines, onAdd, onLog, onDelete, t, lang }) {
+  const [form, setForm] = useState(emptyRoutineForm());
+  const [errMsg, setErrMsg] = useState("");
+
+  function submit() {
+    if (!form.name.trim()) { setErrMsg(t("fillRoutineName")); return; }
+    onAdd({ ...form, id: "r" + Date.now(), log: {} });
+    setForm(emptyRoutineForm());
+    setErrMsg("");
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <GlassCard title={t("newRoutine")} icon={<Dumbbell size={14} color={theme.accent} />} from="top" delay={0}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
+          <div style={{ gridColumn: "1 / -1" }}>
+            <label style={{ fontSize: 10.5, color: C.muted, display: "block", marginBottom: 4 }}>{t("routineName")}</label>
+            <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder={t("routineNamePlaceholder")}
+              style={{ width: "100%", fontSize: 13, padding: "9px 12px", borderRadius: 12, border: `1px solid ${C.glassBorder}`, background: "rgba(255,255,255,0.05)" }} />
+          </div>
+          <div style={{ gridColumn: "1 / -1" }}>
+            <label style={{ fontSize: 10.5, color: C.muted, display: "block", marginBottom: 4 }}>{t("routineDescription")}</label>
+            <input value={form.description} onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))} placeholder={t("routineDescriptionPlaceholder")}
+              style={{ width: "100%", fontSize: 13, padding: "9px 12px", borderRadius: 12, border: `1px solid ${C.glassBorder}`, background: "rgba(255,255,255,0.05)" }} />
+          </div>
+          <div>
+            <label style={{ fontSize: 10.5, color: C.muted, display: "block", marginBottom: 4 }}>{t("routineDuration")}</label>
+            <input type="number" min="0" value={form.duration} onChange={(e) => setForm((f) => ({ ...f, duration: e.target.value }))} placeholder="45"
+              style={{ width: "100%", fontSize: 13, padding: "9px 12px", borderRadius: 12, border: `1px solid ${C.glassBorder}`, background: "rgba(255,255,255,0.05)" }} />
+          </div>
+          <div>
+            <label style={{ fontSize: 10.5, color: C.muted, display: "block", marginBottom: 4 }}>{t("routineCategory")}</label>
+            <select value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+              style={{ width: "100%", fontSize: 13, padding: "9px 12px", borderRadius: 12, border: `1px solid ${C.glassBorder}`, background: "rgba(255,255,255,0.05)" }}>
+              <option value="strength">{t("catStrength")}</option>
+              <option value="endurance">{t("catEndurance")}</option>
+              <option value="mobility">{t("catMobility")}</option>
+            </select>
+          </div>
+          <div style={{ gridColumn: "1 / -1" }}>
+            <label style={{ fontSize: 10.5, color: C.muted, display: "block", marginBottom: 4 }}>{t("routineGoal")}</label>
+            <input value={form.goalText} onChange={(e) => setForm((f) => ({ ...f, goalText: e.target.value }))} placeholder={t("routineGoalPlaceholder")}
+              style={{ width: "100%", fontSize: 13, padding: "9px 12px", borderRadius: 12, border: `1px solid ${C.glassBorder}`, background: "rgba(255,255,255,0.05)" }} />
+          </div>
+        </div>
+        {errMsg && <div style={{ fontSize: 11.5, color: C.red, marginBottom: 8 }}>{errMsg}</div>}
+        <button onClick={submit} className="lift-btn" style={{
+          display: "flex", alignItems: "center", gap: 6, fontSize: 12.5, fontWeight: 700, color: "#fff",
+          background: `linear-gradient(135deg, ${theme.primary}, ${theme.accent})`, border: "none", borderRadius: 10,
+          padding: "9px 18px", cursor: "pointer", boxShadow: `0 4px 14px ${hexAlpha(theme.primary, "50")}`,
+        }}>
+          <Save size={13} /> {t("saveRoutine")}
+        </button>
+      </GlassCard>
+
+      <GlassCard title={t("routinesTitle")} icon={<ListChecks size={14} color={theme.accent} />} from="bottom" delay={100}>
+        <div style={{ fontSize: 11.5, color: C.muted, marginBottom: 12 }}>{t("routinesSub")}</div>
+        {routines.length === 0 ? (
+          <div style={{ fontSize: 12, color: C.muted }}>{t("noRoutines")}</div>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
+            {routines.map((r) => (
+              <RoutineCard key={r.id} theme={theme} routine={r} t={t} lang={lang} onLog={onLog} onDelete={onDelete} />
+            ))}
+          </div>
+        )}
+      </GlassCard>
+    </div>
+  );
+}
+
+/* ============================================================================
+   GOALS TAB — long-term goals with progress bars + confetti on completion
+============================================================================ */
+
+const GOAL_CATEGORY_COLORS = { health: C.green, fitness: C.amber, career: C.pink, learning: "#8b5cf6" };
+
+function emptyGoalForm() {
+  return { id: null, name: "", date: "", period: "", category: "health" };
+}
+
+function GoalCardItem({ theme, goal, t, onUpdateProgress, onDelete }) {
+  const catColor = GOAL_CATEGORY_COLORS[goal.category] || theme.primary;
+  const catKey = goal.category === "health" ? "catHealth" : goal.category === "fitness" ? "catFitness" : goal.category === "career" ? "catCareer" : "catLearning";
+  const achieved = goal.progress >= 100;
+  return (
+    <div className="goal-card">
+      <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 8, marginBottom: 8 }}>
+        <div style={{ minWidth: 0 }}>
+          <div style={{ fontSize: 14.5, fontWeight: 700, color: C.text }}>{goal.name}</div>
+          <span className="routine-cat-pill" style={{ color: catColor, border: `1px solid ${hexAlpha(catColor, "70")}`, background: hexAlpha(catColor, "16"), marginTop: 6 }}>{t(catKey)}</span>
+        </div>
+        <button onClick={() => onDelete(goal.id)} title={t("deleteGoal")} className="lift-btn" style={{ background: "none", border: "none", color: C.muted, cursor: "pointer", opacity: 0.6, flexShrink: 0 }}>
+          <Trash2 size={13} />
+        </button>
+      </div>
+      <div style={{ display: "flex", gap: 14, marginBottom: 10, flexWrap: "wrap", fontSize: 11, color: C.muted }}>
+        {goal.date && <span style={{ display: "flex", alignItems: "center", gap: 5 }}><CalendarDays size={12} color={theme.accent} />{goal.date}</span>}
+        {goal.period && <span style={{ display: "flex", alignItems: "center", gap: 5 }}><Clock size={12} color={theme.accent} />{goal.period}</span>}
+        {achieved && <span className="goal-achieved-badge"><Trophy size={11} /> {t("goalAchieved")}</span>}
+      </div>
+      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+        <span style={{ fontSize: 11, color: C.muted }}>{t("progress")}</span>
+        <span style={{ fontSize: 12, fontWeight: 700, color: achieved ? C.amber : theme.accent }}>{goal.progress}%</span>
+      </div>
+      <div className="goal-progress-track" style={{ marginBottom: 10 }}>
+        <div className="goal-progress-fill" style={{ width: `${goal.progress}%`, background: achieved ? `linear-gradient(90deg, ${C.amber}, ${theme.accent})` : `linear-gradient(90deg, ${theme.primary}, ${theme.accent})` }} />
+      </div>
+      <input
+        type="range" min="0" max="100" step="5" value={goal.progress}
+        onChange={(e) => onUpdateProgress(goal.id, Number(e.target.value))}
+        className="goal-slider"
+      />
+    </div>
+  );
+}
+
+function GoalsCard({ theme, goals, onAdd, onUpdateProgress, onDelete, t }) {
+  const [form, setForm] = useState(emptyGoalForm());
+  const [errMsg, setErrMsg] = useState("");
+
+  function submit() {
+    if (!form.name.trim() || !form.date) { setErrMsg(t("fillGoalName")); return; }
+    onAdd({ ...form, id: "g" + Date.now(), progress: 0 });
+    setForm(emptyGoalForm());
+    setErrMsg("");
+  }
+
+  return (
+    <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
+      <GlassCard title={t("newGoal")} icon={<Target size={14} color={theme.accent} />} from="top" delay={0}>
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginBottom: 10 }}>
+          <div style={{ gridColumn: "1 / -1" }}>
+            <label style={{ fontSize: 10.5, color: C.muted, display: "block", marginBottom: 4 }}>{t("goalName")}</label>
+            <input value={form.name} onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))} placeholder={t("goalNamePlaceholder")}
+              style={{ width: "100%", fontSize: 13, padding: "9px 12px", borderRadius: 12, border: `1px solid ${C.glassBorder}`, background: "rgba(255,255,255,0.05)" }} />
+          </div>
+          <div>
+            <label style={{ fontSize: 10.5, color: C.muted, display: "block", marginBottom: 4 }}>{t("goalDate")}</label>
+            <input type="date" value={form.date} onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
+              style={{ width: "100%", fontSize: 13, padding: "8px 10px", borderRadius: 12, border: `1px solid ${C.glassBorder}`, background: "rgba(255,255,255,0.05)" }} />
+          </div>
+          <div>
+            <label style={{ fontSize: 10.5, color: C.muted, display: "block", marginBottom: 4 }}>{t("goalPeriod")}</label>
+            <input value={form.period} onChange={(e) => setForm((f) => ({ ...f, period: e.target.value }))} placeholder={t("goalPeriodPlaceholder")}
+              style={{ width: "100%", fontSize: 13, padding: "9px 12px", borderRadius: 12, border: `1px solid ${C.glassBorder}`, background: "rgba(255,255,255,0.05)" }} />
+          </div>
+          <div style={{ gridColumn: "1 / -1" }}>
+            <label style={{ fontSize: 10.5, color: C.muted, display: "block", marginBottom: 4 }}>{t("goalCategory")}</label>
+            <select value={form.category} onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
+              style={{ width: "100%", fontSize: 13, padding: "9px 12px", borderRadius: 12, border: `1px solid ${C.glassBorder}`, background: "rgba(255,255,255,0.05)" }}>
+              <option value="health">{t("catHealth")}</option>
+              <option value="fitness">{t("catFitness")}</option>
+              <option value="career">{t("catCareer")}</option>
+              <option value="learning">{t("catLearning")}</option>
+            </select>
+          </div>
+        </div>
+        {errMsg && <div style={{ fontSize: 11.5, color: C.red, marginBottom: 8 }}>{errMsg}</div>}
+        <button onClick={submit} className="lift-btn" style={{
+          display: "flex", alignItems: "center", gap: 6, fontSize: 12.5, fontWeight: 700, color: "#fff",
+          background: `linear-gradient(135deg, ${theme.primary}, ${theme.accent})`, border: "none", borderRadius: 10,
+          padding: "9px 18px", cursor: "pointer", boxShadow: `0 4px 14px ${hexAlpha(theme.primary, "50")}`,
+        }}>
+          <Save size={13} /> {t("saveGoal")}
+        </button>
+      </GlassCard>
+
+      <GlassCard title={t("goalsTitle")} icon={<Trophy size={14} color={theme.accent} />} from="bottom" delay={100}>
+        <div style={{ fontSize: 11.5, color: C.muted, marginBottom: 12 }}>{t("goalsSub")}</div>
+        {goals.length === 0 ? (
+          <div style={{ fontSize: 12, color: C.muted }}>{t("noGoals")}</div>
+        ) : (
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))", gap: 12 }}>
+            {goals.map((g) => (
+              <GoalCardItem key={g.id} theme={theme} goal={g} t={t} onUpdateProgress={onUpdateProgress} onDelete={onDelete} />
+            ))}
+          </div>
+        )}
+      </GlassCard>
+    </div>
+  );
+}
+
+/* ============================================================================
    MAIN APP
 ============================================================================ */
 
@@ -2151,9 +2561,12 @@ export default function App() {
   const [challengeHistory, setChallengeHistory] = useState([]);
   const [isRolling, setIsRolling] = useState(false);
   const [rollingText, setRollingText] = useState("");
+  const [routines, setRoutines] = useState([]);
+  const [goals, setGoals] = useState([]);
   const themeSaveTimers = useRef({});
   const prevBadgesRef = useRef(null);
   const prevChallengeBadgesRef = useRef(null);
+  const prevGoalsAchievedRef = useRef(null);
   const rollTimerRef = useRef(null);
 
   const T = TR[lang] || TR.de;
@@ -2184,6 +2597,8 @@ export default function App() {
     { id: "activity", label: t("navActivity"), icon: Activity },
     { id: "events", label: t("navEvents"), icon: CalendarDays },
     { id: "challenges", label: t("navChallenges"), icon: Dices },
+    { id: "routines", label: t("navRoutines"), icon: Dumbbell },
+    { id: "goals", label: t("navGoals"), icon: Target },
   ];
 
   const particles = useRef(
@@ -2194,7 +2609,7 @@ export default function App() {
     (async () => {
       const test = await storageSelfTest();
       setStorageStatus(test);
-      const [u, h, l, m, th, je, w, ev, lg, fd, cd, ch] = await Promise.all([
+      const [u, h, l, m, th, je, w, ev, lg, fd, cd, ch, ro, go] = await Promise.all([
         loadKey("dashboardUser", null),
         loadKey("gridHabits", DEFAULT_HABITS),
         loadKey("gridLogs", {}),
@@ -2207,6 +2622,8 @@ export default function App() {
         loadKey("dashboardMeals", []),
         loadKey("challengeDifficulty", "leicht"),
         loadKey("challengeHistory", []),
+        loadKey("dashboardRoutines", []),
+        loadKey("dashboardGoals", []),
       ]);
       setUser(u);
       setHabits(h);
@@ -2220,6 +2637,8 @@ export default function App() {
       setLangState(lg === "en" ? "en" : "de");
       setChallengeDifficulty(CHALLENGE_DIFFICULTIES.includes(cd) ? cd : "leicht");
       setChallengeHistory(Array.isArray(ch) ? ch : []);
+      setRoutines(Array.isArray(ro) ? ro : []);
+      setGoals(Array.isArray(go) ? go : []);
       setBooting(false);
     })();
   }, []);
@@ -2266,7 +2685,7 @@ export default function App() {
     if (!ok) flash("Name nicht dauerhaft gespeichert", true);
   }
   async function handleLogout() {
-    try { window.localStorage.removeItem("dashboardUser"); } catch (e) {}
+    try { await window.storage.delete("dashboardUser", false); } catch (e) {}
     setUser(null);
   }
 
@@ -2429,6 +2848,52 @@ export default function App() {
     });
   }
 
+  /* ---- routines ---- */
+  async function addRoutine(routine) {
+    const next = [...routines, routine];
+    setRoutines(next);
+    const ok = await save("dashboardRoutines", next);
+    if (!ok) flash("Routine nicht dauerhaft gespeichert", true);
+  }
+  async function deleteRoutine(id) {
+    const next = routines.filter((r) => r.id !== id);
+    setRoutines(next);
+    await save("dashboardRoutines", next);
+  }
+  async function logRoutine(id, status) {
+    const today = todayStr();
+    const doneFeedback = T.routineDoneFeedback;
+    const skippedFeedback = T.routineSkippedFeedback;
+    const next = routines.map((r) => {
+      if (r.id !== id) return r;
+      const pool = status === "done" ? doneFeedback : skippedFeedback;
+      const feedback = pool[Math.floor(Math.random() * pool.length)];
+      return { ...r, log: { ...(r.log || {}), [today]: status }, feedback };
+    });
+    setRoutines(next);
+    const ok = await save("dashboardRoutines", next);
+    if (!ok) flash("Routine-Status nicht dauerhaft gespeichert", true);
+  }
+
+  /* ---- goals ---- */
+  async function addGoal(goal) {
+    const next = [...goals, goal];
+    setGoals(next);
+    const ok = await save("dashboardGoals", next);
+    if (!ok) flash("Ziel nicht dauerhaft gespeichert", true);
+  }
+  async function deleteGoal(id) {
+    const next = goals.filter((g) => g.id !== id);
+    setGoals(next);
+    await save("dashboardGoals", next);
+  }
+  async function updateGoalProgress(id, progress) {
+    const next = goals.map((g) => (g.id === id ? { ...g, progress } : g));
+    setGoals(next);
+    const ok = await save("dashboardGoals", next);
+    if (!ok) flash("Fortschritt nicht dauerhaft gespeichert", true);
+  }
+
   /* ---- notifications: count of open (not done, not past) events ---- */
   const openEventsCount = useMemo(
     () => events.filter((e) => !e.done && !isEventPast(e)).length,
@@ -2493,10 +2958,13 @@ export default function App() {
     return s;
   }, [badgeStats]);
 
+  /* Expanded challenge stats used by the 18-badge set above */
   const challengeStats = useMemo(() => {
     const totalRolls = challengeHistory.length;
     const doneEntries = challengeHistory.filter((e) => e.done);
     const totalDone = doneEntries.length;
+    const hardDone = doneEntries.filter((e) => e.difficulty === "hard").length;
+
     const perDay = {};
     doneEntries.forEach((e) => {
       const k = challengeDayKey(e.doneAt);
@@ -2504,8 +2972,34 @@ export default function App() {
       perDay[k] = (perDay[k] || 0) + 1;
     });
     const maxDoneInOneDay = Object.values(perDay).reduce((m, v) => Math.max(m, v), 0);
-    const difficultiesDone = new Set(doneEntries.map((e) => e.difficulty));
-    return { totalRolls, totalDone, maxDoneInOneDay, difficultiesDone };
+
+    const exercisesDone = new Set(doneEntries.map((e) => e.exerciseId));
+    const exerciseDiffs = {};
+    doneEntries.forEach((e) => {
+      if (!exerciseDiffs[e.exerciseId]) exerciseDiffs[e.exerciseId] = new Set();
+      exerciseDiffs[e.exerciseId].add(e.difficulty);
+    });
+    const hardExercises = new Set(doneEntries.filter((e) => e.difficulty === "hard").map((e) => e.exerciseId));
+
+    // trailing-7-day distinct-done-day count (for "weekly hero")
+    const last7 = new Set();
+    for (let i = 0; i < 7; i++) {
+      const d = new Date();
+      d.setDate(d.getDate() - i);
+      last7.add(ymdFromDate(d));
+    }
+    const doneDaysLast7 = [...last7].filter((k) => perDay[k] > 0).length;
+
+    // distinct done-days so far this calendar month (for "monthly champion")
+    const nowD = new Date();
+    const monthPrefix = `${nowD.getFullYear()}-${String(nowD.getMonth() + 1).padStart(2, "0")}`;
+    const doneDaysThisMonth = Object.keys(perDay).filter((k) => k.startsWith(monthPrefix) && perDay[k] > 0).length;
+    const daysElapsedThisMonth = nowD.getDate();
+
+    return {
+      totalRolls, totalDone, hardDone, maxDoneInOneDay, exercisesDone, exerciseDiffs, hardExercises,
+      doneDaysLast7, doneDaysThisMonth, daysElapsedThisMonth,
+    };
   }, [challengeHistory]);
 
   const unlockedChallengeBadges = useMemo(() => {
@@ -2529,6 +3023,16 @@ export default function App() {
     prevChallengeBadgesRef.current = unlockedChallengeBadges;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unlockedChallengeBadges]);
+
+  /* Confetti fires the moment a goal's progress reaches 100% */
+  useEffect(() => {
+    const achievedIds = new Set(goals.filter((g) => g.progress >= 100).map((g) => g.id));
+    if (prevGoalsAchievedRef.current === null) { prevGoalsAchievedRef.current = achievedIds; return; }
+    const newly = [...achievedIds].filter((id) => !prevGoalsAchievedRef.current.has(id));
+    if (newly.length > 0) fireConfetti();
+    prevGoalsAchievedRef.current = achievedIds;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [goals]);
 
   if (booting) {
     return (
@@ -2558,6 +3062,9 @@ export default function App() {
         <Bell size={16} />
         {openEventsCount > 0 && <span className="badge-dot">{openEventsCount}</span>}
       </button>
+      <button className="icon-btn info-btn" onClick={() => setAboutModalOpen(true)} title={t("aboutTooltip")} style={{ position: "fixed", top: 108, right: 16, zIndex: 96, width: 38, height: 38 }}>
+        <Info size={16} />
+      </button>
 
       {settingsOpen && (
         <SettingsPanel theme={theme} onChange={updateTheme} onReset={resetTheme} onClose={() => setSettingsOpen(false)} t={t} lang={lang} setLang={setLang} />
@@ -2566,11 +3073,11 @@ export default function App() {
         <NotificationsPanel theme={theme} events={events} onToggleDone={toggleEventDone} onClose={() => setNotificationsOpen(false)} t={t} />
       )}
       {aboutModalOpen && (
-        <AboutModal theme={theme} t={t} onClose={() => setAboutModalOpen(false)} />
+        <AboutModal theme={theme} t={t} lang={lang} onClose={() => setAboutModalOpen(false)} />
       )}
 
       {notice && (
-        <div style={{ position: "fixed", top: 108, right: 16, zIndex: 100, background: notice.isError ? "rgba(251,113,133,0.9)" : hexAlpha(theme.primary, "e6"), backdropFilter: "blur(10px)", color: "#fff", padding: "9px 16px", borderRadius: 12, fontSize: 12, maxWidth: 260, boxShadow: "0 8px 24px rgba(0,0,0,0.35)" }}>
+        <div style={{ position: "fixed", top: 154, right: 16, zIndex: 100, background: notice.isError ? "rgba(251,113,133,0.9)" : hexAlpha(theme.primary, "e6"), backdropFilter: "blur(10px)", color: "#fff", padding: "9px 16px", borderRadius: 12, fontSize: 12, maxWidth: 260, boxShadow: "0 8px 24px rgba(0,0,0,0.35)" }}>
           {notice.msg}
         </div>
       )}
@@ -2877,8 +3384,19 @@ export default function App() {
           </div>
         )}
 
-        {/* ---------- ABOUT / MANIFESTO ---------- */}
-        <AboutSection theme={theme} t={t} lang={lang} onOpenInfo={() => setAboutModalOpen(true)} />
+        {/* ---------- ROUTINES TAB ---------- */}
+        {activeTab === "routines" && (
+          <div key="routines" className="tab-content">
+            <RoutinesCard theme={theme} routines={routines} onAdd={addRoutine} onLog={logRoutine} onDelete={deleteRoutine} t={t} lang={lang} />
+          </div>
+        )}
+
+        {/* ---------- GOALS TAB ---------- */}
+        {activeTab === "goals" && (
+          <div key="goals" className="tab-content">
+            <GoalsCard theme={theme} goals={goals} onAdd={addGoal} onUpdateProgress={updateGoalProgress} onDelete={deleteGoal} t={t} />
+          </div>
+        )}
       </div>
 
       {/* ---------- credit widget ---------- */}
