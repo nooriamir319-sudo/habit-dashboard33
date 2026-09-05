@@ -193,8 +193,6 @@ const TR = {
     aboutPopupTitle: "Danke, dass du hier bist",
     aboutPopupText: "Diese Website wird nie etwas kosten. Sie ist für jeden gedacht, der ein Stück mehr Struktur, Reflexion und Fortschritt in seinen Alltag bringen möchte – unabhängig davon, was er sich leisten kann. Wenn dir das Dashboard hilft, ist das schon genug.",
     closeButton: "Schließen",
-    privacyLinkLabel: "Datenschutz",
-    privacyPopupTitle: "Datenschutzerklärung",
     // challenge dice
     challengeTitle: "Challenge-Würfel",
     rollDice: "Würfeln",
@@ -372,8 +370,6 @@ const TR = {
     aboutPopupTitle: "Thank you for being here",
     aboutPopupText: "This website will never cost anything. It's meant for anyone who wants a bit more structure, reflection, and progress in their everyday life — no matter what they can afford. If this dashboard helps you, that's already enough.",
     closeButton: "Close",
-    privacyLinkLabel: "Privacy Policy",
-    privacyPopupTitle: "Privacy Policy",
     // challenge dice
     challengeTitle: "Challenge Dice",
     rollDice: "Roll",
@@ -1534,8 +1530,7 @@ function GoogleIcon({ size = 18 }) {
    LOGIN SCREEN — Google Sign-In via Firebase Authentication
 ============================================================================ */
 
-function LoginScreen({ theme, particles, onGoogleLogin, loginError, t, lang }) {
-  const [privacyOpen, setPrivacyOpen] = useState(false);
+function LoginScreen({ theme, particles, onGoogleLogin, loginError, t }) {
   return (
     <div className="habit-app" style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, overflow: "hidden" }}>
       <GlobalStyles theme={theme} />
@@ -1567,18 +1562,7 @@ function LoginScreen({ theme, particles, onGoogleLogin, loginError, t, lang }) {
           </span>
           {t("loginWithGoogle")}
         </button>
-        <button
-          onClick={() => setPrivacyOpen(true)}
-          className="lift-btn"
-          style={{
-            marginTop: 16, background: "none", border: "none", cursor: "pointer",
-            fontSize: 11.5, color: C.muted, textDecoration: "underline", textUnderlineOffset: "3px",
-          }}
-        >
-          {t("privacyLinkLabel")}
-        </button>
       </div>
-      {privacyOpen && <PrivacyModal theme={theme} t={t} lang={lang} onClose={() => setPrivacyOpen(false)} />}
     </div>
   );
 }
@@ -1756,27 +1740,6 @@ That is why I have decided: This website will remain free forever. It is for eve
 My website is not a product. It is an invitation to anyone who dares to take the first step without having to be afraid that the second step will cost something.`,
 };
 
-const PRIVACY_POLICY = {
-  de: `Diese Website nutzt Google Firebase (Firebase Authentication und Firebase Firestore) als technischen Dienstleister im Hintergrund. Firebase gehört zu Google Ireland Limited bzw. Google LLC und wird verwendet, um dich sicher anzumelden und deine Daten dauerhaft zu speichern.
-
-Wenn du dich mit deinem Google-Konto anmeldest, werden dein Name und deine E-Mail-Adresse verarbeitet, um dir dein persönliches Dashboard bereitzustellen. Zusätzlich werden deine Fortschritte in der Cloud gespeichert, dazu zählen zum Beispiel deine Gewohnheiten und Häkchen, deine Stimmungs- und Motivationswerte, deine Tagebucheinträge, dein Trinkwasser-Verlauf, deine Termine, deine gewürfelten Challenges, deine Routinen und deine Ziele.
-
-Diese Daten werden ausschließlich dazu genutzt, dir die Funktionen dieser Website bereitzustellen, damit du von jedem Gerät aus auf dein Dashboard zugreifen kannst. Deine Daten werden nicht verkauft, nicht an Werbetreibende weitergegeben und nicht für andere Zwecke als den Betrieb dieser Website verwendet.
-
-Du hast jederzeit das Recht, Auskunft über deine gespeicherten Daten zu erhalten und die vollständige Löschung deiner Daten zu verlangen. Melde dich dazu einfach per E-Mail, und deine Daten werden umgehend und vollständig gelöscht.
-
-Kontakt für alle Fragen rund um deine Daten und den Datenschutz: nooriamir319@gmail.com`,
-  en: `This website uses Google Firebase (Firebase Authentication and Firebase Firestore) as a technical service provider in the background. Firebase belongs to Google Ireland Limited / Google LLC and is used to sign you in securely and to store your data permanently.
-
-When you sign in with your Google account, your name and email address are processed in order to provide you with your personal dashboard. In addition, your progress is stored in the cloud, including your habits and checkmarks, your mood and motivation values, your journal entries, your water-intake history, your events, your rolled challenges, your routines, and your goals.
-
-This data is used exclusively to provide you with the features of this website, so that you can access your dashboard from any device. Your data is never sold, never shared with advertisers, and never used for any purpose other than operating this website.
-
-You have the right at any time to request information about your stored data and to request the complete deletion of your data. Simply contact me by email, and your data will be deleted promptly and completely.
-
-Contact for any questions about your data and privacy: nooriamir319@gmail.com`,
-};
-
 function AboutModal({ theme, t, lang, onClose }) {
   const paragraphs = (MANIFESTO[lang] || MANIFESTO.de).split("\n\n");
   return (
@@ -1791,35 +1754,6 @@ function AboutModal({ theme, t, lang, onClose }) {
               <Info size={18} color="#fff" />
             </div>
             <h2 className="display" style={{ fontSize: 17, fontWeight: 700, margin: 0, color: C.text }}>{t("aboutPopupTitle")}</h2>
-          </div>
-          <button onClick={onClose} className="modal-close-btn" title={t("closeButton")}>
-            <X size={16} />
-          </button>
-        </div>
-        <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          {paragraphs.map((p, i) => (
-            <p key={i} style={{ fontSize: 12.5, lineHeight: 1.7, color: C.muted, margin: 0 }}>{p}</p>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-function PrivacyModal({ theme, t, lang, onClose }) {
-  const paragraphs = (PRIVACY_POLICY[lang] || PRIVACY_POLICY.de).split("\n\n");
-  return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-box glass-card" style={{ padding: 26, width: 480, maxWidth: "100%", maxHeight: "82vh", overflowY: "auto" }} onClick={(e) => e.stopPropagation()}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 14 }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <div style={{
-              width: 38, height: 38, borderRadius: "50%", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0,
-              background: `linear-gradient(135deg, ${theme.primary}, ${theme.accent})`, boxShadow: `0 0 18px ${hexAlpha(theme.primary, "60")}`,
-            }}>
-              <Info size={18} color="#fff" />
-            </div>
-            <h2 className="display" style={{ fontSize: 17, fontWeight: 700, margin: 0, color: C.text }}>{t("privacyPopupTitle")}</h2>
           </div>
           <button onClick={onClose} className="modal-close-btn" title={t("closeButton")}>
             <X size={16} />
@@ -3163,7 +3097,7 @@ export default function App() {
   }
 
   if (!user) {
-    return <LoginScreen theme={theme} particles={particles} onGoogleLogin={handleGoogleLogin} loginError={loginError} t={t} lang={lang} />;
+    return <LoginScreen theme={theme} particles={particles} onGoogleLogin={handleGoogleLogin} loginError={loginError} t={t} />;
   }
 
   const cellSize = 32;
