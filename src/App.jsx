@@ -11,6 +11,38 @@ import {
 } from "lucide-react";
 
 /* ============================================================================
+   FIREBASE
+============================================================================ */
+import { initializeApp } from "firebase/app";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithPopup,
+  signOut,
+} from "firebase/auth";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDrs-MGcAn_MzzRk3TRqsj88vI02J05dP0",
+  authDomain: "habit-dashboard-8a7dd.firebaseapp.com",
+  projectId: "habit-dashboard-8a7dd",
+  storageBucket: "habit-dashboard-8a7dd.firebasestorage.app",
+  messagingSenderId: "1067522354208",
+  appId: "1:1067522354208:web:afc22c80e90f89b385a045"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const googleProvider = new GoogleAuthProvider();
+
+/* ============================================================================
    TOKENS
 ============================================================================ */
 
@@ -63,10 +95,12 @@ const TR = {
     language: "Sprache",
     reset: "Zurücksetzen",
     welcomeBack: "Willkommen zurück",
-    loginSub: "Trag deinen Vornamen ein, um dein persönliches Dashboard zu öffnen.",
+    loginSub: "Melde dich mit deinem Google-Konto an, um dein persönliches Dashboard zu öffnen.",
     firstNamePlaceholder: "Dein Vorname",
     pleaseEnterName: "Bitte gib einen Namen ein.",
     login: "Anmelden",
+    loginWithGoogle: "Mit Google anmelden",
+    loginError: "Google-Login fehlgeschlagen. Bitte versuche es erneut.",
     calendar: "Kalender",
     myHabits: "Meine Habits",
     remove: "Entfernen",
@@ -238,10 +272,12 @@ const TR = {
     language: "Language",
     reset: "Reset",
     welcomeBack: "Welcome back",
-    loginSub: "Enter your first name to open your personal dashboard.",
+    loginSub: "Sign in with your Google account to open your personal dashboard.",
     firstNamePlaceholder: "Your first name",
     pleaseEnterName: "Please enter a name.",
     login: "Log in",
+    loginWithGoogle: "Sign in with Google",
+    loginError: "Google sign-in failed. Please try again.",
     calendar: "Calendar",
     myHabits: "My Habits",
     remove: "Remove",
@@ -1073,37 +1109,6 @@ function isEventPast(ev) {
 }
 
 /* ============================================================================
-   STORAGE (localStorage — persists across sessions in the visitor's browser)
-============================================================================ */
-
-async function storageSelfTest() {
-  if (typeof window === "undefined" || !window.localStorage) return { ok: false, detail: "localStorage ist in diesem Browser nicht verfügbar." };
-  try {
-    const marker = "diag_" + Date.now();
-    localStorage.setItem("__diag_dash__", marker);
-    const readBack = localStorage.getItem("__diag_dash__");
-    if (readBack !== marker) return { ok: false, detail: "Rücklesen fehlgeschlagen." };
-    localStorage.removeItem("__diag_dash__");
-    return { ok: true, detail: "OK" };
-  } catch (e) { return { ok: false, detail: e && e.message ? e.message : String(e) }; }
-}
-
-async function loadKey(key, fallback) {
-  try {
-    const raw = localStorage.getItem(key);
-    if (raw) return JSON.parse(raw);
-  } catch (e) {}
-  return fallback;
-}
-
-async function save(key, value) {
-  try {
-    localStorage.setItem(key, JSON.stringify(value));
-    return true;
-  } catch (e) { console.error("Speichern fehlgeschlagen:", key, e); return false; }
-}
-
-/* ============================================================================
    GLOBAL STYLES
 ============================================================================ */
 
@@ -1507,19 +1512,25 @@ function Confetti({ pieces }) {
 }
 
 /* ============================================================================
-   LOGIN SCREEN
+   GOOGLE ICON (inline SVG, no external asset needed)
 ============================================================================ */
 
-function LoginScreen({ theme, particles, onLogin, t }) {
-  const [name, setName] = useState("");
-  const [err, setErr] = useState(false);
+function GoogleIcon({ size = 18 }) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 48 48" aria-hidden="true">
+      <path fill="#FFC107" d="M43.611,20.083H42V20H24v8h11.303c-1.649,4.657-6.08,8-11.303,8c-6.627,0-12-5.373-12-12s5.373-12,12-12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C12.955,4,4,12.955,4,24s8.955,20,20,20s20-8.955,20-20C44,22.659,43.862,21.35,43.611,20.083z" />
+      <path fill="#FF3D00" d="M6.306,14.691l6.571,4.819C14.655,15.108,18.961,12,24,12c3.059,0,5.842,1.154,7.961,3.039l5.657-5.657C34.046,6.053,29.268,4,24,4C16.318,4,9.656,8.337,6.306,14.691z" />
+      <path fill="#4CAF50" d="M24,44c5.166,0,9.86-1.977,13.409-5.192l-6.19-5.238C29.211,35.091,26.715,36,24,36c-5.202,0-9.619-3.317-11.283-7.946l-6.522,5.025C9.505,39.556,16.227,44,24,44z" />
+      <path fill="#1976D2" d="M43.611,20.083H42V20H24v8h11.303c-0.792,2.237-2.231,4.166-4.087,5.571c0.001-0.001,0.002-0.001,0.003-0.002l6.19,5.238C36.971,39.205,44,34,44,24C44,22.659,43.862,21.35,43.611,20.083z" />
+    </svg>
+  );
+}
 
-  function submit() {
-    const trimmed = name.trim();
-    if (!trimmed) { setErr(true); return; }
-    onLogin(trimmed);
-  }
+/* ============================================================================
+   LOGIN SCREEN — Google Sign-In via Firebase Authentication
+============================================================================ */
 
+function LoginScreen({ theme, particles, onGoogleLogin, loginError, t }) {
   return (
     <div className="habit-app" style={{ minHeight: "100vh", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", padding: 20, overflow: "hidden" }}>
       <GlobalStyles theme={theme} />
@@ -1535,29 +1546,21 @@ function LoginScreen({ theme, particles, onLogin, t }) {
         <p style={{ fontSize: 12.5, color: C.muted, margin: "0 0 22px", lineHeight: 1.5 }}>
           {t("loginSub")}
         </p>
-        <input
-          className="login-input"
-          value={name}
-          onChange={(e) => { setName(e.target.value); setErr(false); }}
-          onKeyDown={(e) => e.key === "Enter" && submit()}
-          placeholder={t("firstNamePlaceholder")}
-          autoFocus
-          style={{
-            width: "100%", fontSize: 14, padding: "11px 14px", borderRadius: 14, textAlign: "center",
-            border: `1px solid ${err ? C.red : C.glassBorder}`, background: "rgba(255,255,255,0.06)", marginBottom: 8,
-          }}
-        />
-        {err && <div style={{ fontSize: 11, color: C.red, marginBottom: 10 }}>{t("pleaseEnterName")}</div>}
+        {loginError && <div style={{ fontSize: 11, color: C.red, marginBottom: 12 }}>{loginError}</div>}
         <button
-          onClick={submit}
+          onClick={onGoogleLogin}
           className="lift-btn"
           style={{
-            width: "100%", marginTop: 10, padding: "11px 0", borderRadius: 14, border: "none", cursor: "pointer",
+            width: "100%", padding: "11px 0", borderRadius: 14, border: "none", cursor: "pointer",
             fontSize: 13.5, fontWeight: 700, color: "#fff", background: `linear-gradient(135deg, ${theme.primary}, ${theme.accent})`,
             boxShadow: `0 6px 22px ${hexAlpha(theme.primary, "60")}`,
+            display: "flex", alignItems: "center", justifyContent: "center", gap: 10,
           }}
         >
-          {t("login")}
+          <span style={{ width: 22, height: 22, borderRadius: "50%", background: "#fff", display: "flex", alignItems: "center", justifyContent: "center", flexShrink: 0 }}>
+            <GoogleIcon size={14} />
+          </span>
+          {t("loginWithGoogle")}
         </button>
       </div>
     </div>
@@ -2545,6 +2548,7 @@ export default function App() {
   const [year, setYear] = useState(now.getFullYear());
   const [month, setMonth] = useState(now.getMonth());
   const [storageStatus, setStorageStatus] = useState(null);
+  const [loginError, setLoginError] = useState("");
   const [notice, setNotice] = useState(null);
   const [newHabitName, setNewHabitName] = useState("");
   const [newHabitEmoji, setNewHabitEmoji] = useState("✅");
@@ -2567,6 +2571,8 @@ export default function App() {
   const prevChallengeBadgesRef = useRef(null);
   const prevGoalsAchievedRef = useRef(null);
   const rollTimerRef = useRef(null);
+  const uidRef = useRef(null);
+  const userDataCacheRef = useRef({});
 
   const T = TR[lang] || TR.de;
   const t = (key) => T[key];
@@ -2604,42 +2610,81 @@ export default function App() {
     Array.from({ length: 18 }, (_, i) => ({ id: i, left: Math.random() * 100, size: 3 + Math.random() * 5, duration: 12 + Math.random() * 16, delay: Math.random() * 12, colorIdx: i % 2 }))
   ).current;
 
+  /* ---- Firestore helpers ----
+     All of the user's data lives in one document at users/{uid}. Every "key" the
+     rest of the app already used with localStorage (gridHabits, dashboardEvents, ...)
+     is simply a field in that document. loadKey reads from a locally cached copy of
+     the document (fetched once at login), save() writes both the cache and Firestore. */
+  async function loadUserDoc(uid) {
+    try {
+      const snap = await getDoc(doc(db, "users", uid));
+      return snap.exists() ? snap.data() : {};
+    } catch (e) {
+      console.error("Firestore-Ladefehler:", e);
+      return {};
+    }
+  }
+
+  function loadKey(key, fallback) {
+    const cache = userDataCacheRef.current;
+    return Object.prototype.hasOwnProperty.call(cache, key) ? cache[key] : fallback;
+  }
+
+  async function save(key, value) {
+    const uid = uidRef.current;
+    if (!uid) return false;
+    userDataCacheRef.current = { ...userDataCacheRef.current, [key]: value };
+    try {
+      await setDoc(doc(db, "users", uid), { [key]: value }, { merge: true });
+      return true;
+    } catch (e) {
+      console.error("Speichern fehlgeschlagen:", key, e);
+      return false;
+    }
+  }
+
+  /* ---- Auth: Firebase onAuthStateChanged drives the whole login/logout flow ---- */
   useEffect(() => {
-    (async () => {
-      const test = await storageSelfTest();
-      setStorageStatus(test);
-      const [u, h, l, m, th, je, w, ev, lg, fd, cd, ch, ro, go] = await Promise.all([
-        loadKey("dashboardUser", null),
-        loadKey("gridHabits", DEFAULT_HABITS),
-        loadKey("gridLogs", {}),
-        loadKey("gridMood", {}),
-        loadKey("gridTheme", DEFAULT_THEME),
-        loadKey("dashboardJournal", []),
-        loadKey("dashboardWater", {}),
-        loadKey("dashboardEvents", []),
-        loadKey("dashboardLang", "de"),
-        loadKey("dashboardMeals", []),
-        loadKey("challengeDifficulty", "leicht"),
-        loadKey("challengeHistory", []),
-        loadKey("dashboardRoutines", []),
-        loadKey("dashboardGoals", []),
-      ]);
-      setUser(u);
-      setHabits(h);
-      setLogs(l);
-      setMood(m);
-      setTheme({ ...DEFAULT_THEME, ...th });
-      setJournalEntries(Array.isArray(je) ? je : []);
-      setWater(w);
-      setEvents(ev);
-      setMeals(Array.isArray(fd) ? fd : []);
-      setLangState(lg === "en" ? "en" : "de");
-      setChallengeDifficulty(CHALLENGE_DIFFICULTIES.includes(cd) ? cd : "leicht");
-      setChallengeHistory(Array.isArray(ch) ? ch : []);
-      setRoutines(Array.isArray(ro) ? ro : []);
-      setGoals(Array.isArray(go) ? go : []);
-      setBooting(false);
-    })();
+    const unsubscribe = onAuthStateChanged(auth, async (fbUser) => {
+      if (fbUser) {
+        setBooting(true);
+        uidRef.current = fbUser.uid;
+        const data = await loadUserDoc(fbUser.uid);
+        userDataCacheRef.current = data;
+
+        setUser(fbUser.displayName || fbUser.email || "Nutzer");
+        setHabits(loadKey("gridHabits", DEFAULT_HABITS));
+        setLogs(loadKey("gridLogs", {}));
+        setMood(loadKey("gridMood", {}));
+        setTheme({ ...DEFAULT_THEME, ...loadKey("gridTheme", DEFAULT_THEME) });
+        const je = loadKey("dashboardJournal", []);
+        setJournalEntries(Array.isArray(je) ? je : []);
+        setWater(loadKey("dashboardWater", {}));
+        setEvents(loadKey("dashboardEvents", []));
+        const fd = loadKey("dashboardMeals", []);
+        setMeals(Array.isArray(fd) ? fd : []);
+        const lg = loadKey("dashboardLang", "de");
+        setLangState(lg === "en" ? "en" : "de");
+        const cd = loadKey("challengeDifficulty", "leicht");
+        setChallengeDifficulty(CHALLENGE_DIFFICULTIES.includes(cd) ? cd : "leicht");
+        const ch = loadKey("challengeHistory", []);
+        setChallengeHistory(Array.isArray(ch) ? ch : []);
+        const ro = loadKey("dashboardRoutines", []);
+        setRoutines(Array.isArray(ro) ? ro : []);
+        const go = loadKey("dashboardGoals", []);
+        setGoals(Array.isArray(go) ? go : []);
+
+        setStorageStatus({ ok: true, detail: "OK" });
+        setBooting(false);
+      } else {
+        uidRef.current = null;
+        userDataCacheRef.current = {};
+        setUser(null);
+        setBooting(false);
+      }
+    });
+    return () => unsubscribe();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   /* Quote of the day: auto-advance to a new random quote every 10 minutes */
@@ -2678,14 +2723,23 @@ export default function App() {
     await save("dashboardLang", next);
   }
 
-  async function handleLogin(name) {
-    setUser(name);
-    const ok = await save("dashboardUser", name);
-    if (!ok) flash("Name nicht dauerhaft gespeichert", true);
+  /* ---- Google login / logout via Firebase Authentication ---- */
+  async function handleGoogleLogin() {
+    setLoginError("");
+    try {
+      await signInWithPopup(auth, googleProvider);
+      // onAuthStateChanged (above) picks up the new session and loads the dashboard.
+    } catch (e) {
+      console.error("Google-Login fehlgeschlagen:", e);
+      setLoginError(t("loginError"));
+    }
   }
   async function handleLogout() {
-    try { localStorage.removeItem("dashboardUser"); } catch (e) {}
-    setUser(null);
+    try {
+      await signOut(auth);
+    } catch (e) {
+      console.error("Logout fehlgeschlagen:", e);
+    }
   }
 
   function trySwitchTab(id) {
@@ -3043,7 +3097,7 @@ export default function App() {
   }
 
   if (!user) {
-    return <LoginScreen theme={theme} particles={particles} onLogin={handleLogin} t={t} />;
+    return <LoginScreen theme={theme} particles={particles} onGoogleLogin={handleGoogleLogin} loginError={loginError} t={t} />;
   }
 
   const cellSize = 32;
